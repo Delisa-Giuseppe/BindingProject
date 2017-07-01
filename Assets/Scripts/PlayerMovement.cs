@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour {
 
     public float speed = 5f;
+    public GameObject bullet;
+    
 
 	// Use this for initialization
 	void Start () {
@@ -17,4 +19,5 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
    
+
 }
