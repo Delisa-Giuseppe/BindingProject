@@ -5,6 +5,8 @@ using UnityEngine;
 public class BulletControl : MonoBehaviour {
 
     public Vector2 speed;
+    public GameObject target;
+    public Transform firePosition;
 
     Rigidbody2D bulletRB;
 
@@ -14,12 +16,19 @@ public class BulletControl : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-        bulletRB.velocity = speed;
+	void FixedUpdate () {
+        Debug.LogWarning(target.transform.position);
+        //bulletRB.AddForce(speed);
+        transform.position = Vector2.Lerp(firePosition.position, target.transform.position, 5 * Time.deltaTime);
     }
 
     void OnCollisionEnter2D(Collision2D coll)
     {
         Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        //Destroy(target);
     }
 }

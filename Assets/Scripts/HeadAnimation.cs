@@ -6,9 +6,11 @@ public class HeadAnimation : MonoBehaviour {
 
     Animator anim;
     public GameObject bullet;
+    public GameObject target;
     public float bulletVelocity;
     Vector2 speedBullet;
     Transform firePosition;
+    const float GRAVITY_CONSTANT = 9.8f;
 
     // Use this for initialization
     void Start () {
@@ -30,31 +32,15 @@ public class HeadAnimation : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            speedBullet.x = 0;
-            speedBullet.y = 0;
+            speedBullet = Vector2.zero;
+            
+            Vector2 targetPosition = new Vector2(transform.position.x + 20, 0);
+            Instantiate(target, targetPosition, Quaternion.identity);
 
-            if (h > 0)
-            {
-                speedBullet.x = bulletVelocity;
-            }
-            else if (h < 0)
-            {
-                speedBullet.x = -bulletVelocity;
-            }
-            else if (v > 0)
-            {
-                speedBullet.y = bulletVelocity;
-            }
-            else if (v < 0)
-            {
-                speedBullet.y = -bulletVelocity;
-            }
-            else if (h == 0 && v == 0)
-            {
-                speedBullet.y = -bulletVelocity;
-            }
+
             bullet.GetComponent<BulletControl>().speed = speedBullet;
-            bullet.GetComponent<Rigidbody2D>().isKinematic = true;
+            bullet.GetComponent<BulletControl>().target = target;
+            bullet.GetComponent<BulletControl>().firePosition = firePosition;
             Fire();
         }
     }
