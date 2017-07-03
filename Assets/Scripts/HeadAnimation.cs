@@ -16,37 +16,8 @@ public class HeadAnimation : MonoBehaviour {
         firePosition = transform.FindChild("FireBullet").transform;
     }
 
-    private void Update()
-    {
-        speedBullet.x = 0;
-        speedBullet.y = 0;
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("HeadIdle") || anim.GetCurrentAnimatorStateInfo(0).IsName("HeadDown"))
-        {
-            speedBullet.y = -bulletVelocity;
-            
-        }
-        else if(anim.GetCurrentAnimatorStateInfo(0).IsName("HeadUp"))
-        {
-            speedBullet.y = bulletVelocity;
-        }
-        else if (anim.GetCurrentAnimatorStateInfo(0).IsName("HeadRight"))
-        {
-            speedBullet.x = bulletVelocity;
-        }
-        else if (anim.GetCurrentAnimatorStateInfo(0).IsName("HeadLeft"))
-        {
-            speedBullet.x = -bulletVelocity;
-        }
-        bullet.GetComponent<BulletControl>().speed = speedBullet;
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Fire();
-        }
-    }
-
     // Update is called once per frame
-    void LateUpdate() {
+    void Update() {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
         bool walking = h != 0f || v != 0f;
@@ -55,6 +26,36 @@ public class HeadAnimation : MonoBehaviour {
         {
             anim.SetFloat("speedHorizontal", h);
             anim.SetFloat("speedVertical", v);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            speedBullet.x = 0;
+            speedBullet.y = 0;
+
+            if (h > 0)
+            {
+                speedBullet.x = bulletVelocity;
+            }
+            else if (h < 0)
+            {
+                speedBullet.x = -bulletVelocity;
+            }
+            else if (v > 0)
+            {
+                speedBullet.y = bulletVelocity;
+            }
+            else if (v < 0)
+            {
+                speedBullet.y = -bulletVelocity;
+            }
+            else if (h == 0 && v == 0)
+            {
+                speedBullet.y = -bulletVelocity;
+            }
+            bullet.GetComponent<BulletControl>().speed = speedBullet;
+            bullet.GetComponent<Rigidbody2D>().isKinematic = true;
+            Fire();
         }
     }
 
