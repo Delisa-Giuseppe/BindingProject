@@ -5,13 +5,11 @@ using UnityEngine;
 public class HeadAnimation : MonoBehaviour {
 
     Animator anim;
-    public GameObject bullet;
-    public GameObject target;
-    public float bulletVelocity;
-    Vector2 speedBullet;
     Transform firePosition;
-    const float GRAVITY_CONSTANT = 9.8f;
-
+    public GameObject bullet;
+    public float bulletVelocity;
+    public float bulletrange;
+    
     // Use this for initialization
     void Start () {
         anim = GetComponent<Animator>();
@@ -20,8 +18,8 @@ public class HeadAnimation : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
+        float h = Input.GetAxisRaw("Horizontal2");
+        float v = Input.GetAxisRaw("Vertical2");
         bool walking = h != 0f || v != 0f;
         anim.SetBool("isWalking", walking);
         if(walking)
@@ -32,21 +30,38 @@ public class HeadAnimation : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            speedBullet = Vector2.zero;
+
+            float xSpeed = bulletVelocity;//Mathf.Abs(maxSpeed * Mathf.Cos(throwAngle));
+            float ySpeed = bulletVelocity;// Mathf.Abs(maxSpeed * Mathf.Sin(throwAngle));
+
+            if (h > 0)
+            {
+                ySpeed = bulletrange;
+            }
+            if (h < 0)
+            {
+                xSpeed = -xSpeed;
+                ySpeed = bulletrange;
+            }
+            else if (v > 0)
+            {
+                xSpeed = 0;
+            }
+            else if (v < 0 || (h == 0 && v == 0))
+            {
+                xSpeed = 0;
+                ySpeed = -bulletrange;
+            }
             
-            Vector2 targetPosition = new Vector2(transform.position.x + 20, 0);
-            Instantiate(target, targetPosition, Quaternion.identity);
-
-
-            bullet.GetComponent<BulletControl>().speed = speedBullet;
-            bullet.GetComponent<BulletControl>().target = target;
-            bullet.GetComponent<BulletControl>().firePosition = firePosition;
-            Fire();
+            Fire(xSpeed, ySpeed);
         }
     }
 
-    void Fire()
+    void Fire(float xSpeed, float ySpeed)
     {
-        Instantiate(bullet, firePosition.position, Quaternion.identity);
+        GameObject bulletInstance = Instantiate(bullet, firePosition.position, Quaternion.identity) as GameObject;
+
+        Rigidbody2D bulletRB = bulletInstance.GetComponent<Rigidbody2D>();
+        bulletRB.velocity = new Vector2(xSpeed, ySpeed);
     }
 }
