@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour {
 	public Transform target;
-    public int moveSpeed;
+    public float moveSpeed;
 	public Rigidbody2D rb;
 
     Vector2 currentDirection;
+    Vector2 direction;
     bool move = true;
 
 	void Start () {
@@ -18,29 +19,30 @@ public class EnemyAI : MonoBehaviour {
 	void Update () {
         if(move)
         {
-            transform.Translate((target.position - transform.position).normalized * moveSpeed * Time.deltaTime);
-            currentDirection = (target.position - transform.position).normalized;
+            direction = (target.position - transform.position).normalized;
         }
+        currentDirection = direction;
+        transform.Translate(direction *moveSpeed * Time.deltaTime);
     }
 
-	void OnCollisionStay2D(Collision2D other)
+	void OnCollisionEnter2D(Collision2D other)
 	{
         move = false;
         if(currentDirection == Vector2.left)
         {
-            transform.Translate(Vector2.up * moveSpeed * Time.deltaTime);
+            direction = Vector2.up;
         }
         else if(currentDirection == Vector2.right)
         {
-            transform.Translate(Vector2.up * moveSpeed * Time.deltaTime);
+            direction = Vector2.up;
         }
         else if(currentDirection == Vector2.up)
         {
-            transform.Translate(Vector2.left * moveSpeed * Time.deltaTime);
+            direction = Vector2.left;
         }
         else if(currentDirection == Vector2.down)
         {
-            transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
+            direction = Vector2.right;
         }
 
     }
