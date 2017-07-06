@@ -7,6 +7,7 @@ public class BulletControl : MonoBehaviour {
     public float bulletVelocity;
     public float bulletRate;
     public float maxTravelDistance;
+    public GameObject tearSplash;
 
     Transform startPosition;
     Rigidbody2D bulletRB;
@@ -27,20 +28,24 @@ public class BulletControl : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.tag != "Player")
+        if (coll.gameObject.tag == "Enemy")
         {
-            if (coll.gameObject.tag == "Enemy")
-            {
-                coll.gameObject.GetComponent<EnemyIA>().health = coll.gameObject.GetComponent<EnemyIA>().health - 1;
-            }
-
-            Destroy(gameObject);
+            coll.gameObject.GetComponent<EnemyIA>().health = coll.gameObject.GetComponent<EnemyIA>().health - 1;
         }
+
+        Destroy(gameObject);
+        
     }
 
     public Transform InitialPosition
     {
         set { startPosition = value; }
+    }
+
+    private void OnDestroy()
+    {
+        GameObject tearSplashInstance = Instantiate(tearSplash, transform.position, Quaternion.identity) as GameObject;
+        Destroy(tearSplashInstance, 1f);
     }
 
 }
