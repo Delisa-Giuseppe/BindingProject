@@ -14,6 +14,11 @@ public class ChaseEnemy : EnemyIA {
     // Update is called once per frame
     void Update()
     {
+        if(base.IsDead())
+        {
+            Destroy(gameObject);
+        }
+
         if (move)
         {
             direction = (target.transform.position - transform.position).normalized;

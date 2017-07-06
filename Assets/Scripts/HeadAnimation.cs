@@ -9,9 +9,6 @@ public class HeadAnimation : MonoBehaviour {
     Rigidbody2D playerRB;
     float nextFire = 0.0F;
     public GameObject bullet;
-    public float bulletVelocity;
-    public float bulletRange;
-    public float bulletRate;
     float previousH = 0;
     float previousV = 0;
 
@@ -35,10 +32,15 @@ public class HeadAnimation : MonoBehaviour {
         anim.SetBool("isShooting", shooting);
         anim.SetBool("isMoving", moving);
 
+        float bulletVelocity = bullet.GetComponent<BulletControl>().bulletVelocity;
+        float bulletRange = bullet.GetComponent<BulletControl>().bulletRange;
+        float bulletRate = bullet.GetComponent<BulletControl>().bulletRate;
+
         float speedPlayerX = playerRB.velocity.x != 0 ? playerRB.velocity.x : 0;
         float speedPlayerY = playerRB.velocity.y != 0 ? playerRB.velocity.y : 0;
-        float xSpeed = bulletVelocity + speedPlayerX;//Mathf.Abs(maxSpeed * Mathf.Cos(throwAngle));
-        float ySpeed = bulletVelocity + speedPlayerY;// Mathf.Abs(maxSpeed * Mathf.Sin(throwAngle));
+        
+        float xSpeed = bulletVelocity + speedPlayerX;
+        float ySpeed = bulletVelocity + speedPlayerY;
 
         if (h > 0)
         {

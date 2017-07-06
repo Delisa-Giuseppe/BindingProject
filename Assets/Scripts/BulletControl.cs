@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class BulletControl : MonoBehaviour {
 
+    public float bulletVelocity;
+    public float bulletRange;
+    public float bulletRate;
     Rigidbody2D bulletRB;
 
     private void Start()
@@ -14,12 +17,15 @@ public class BulletControl : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if(coll.gameObject.tag == "Enemy")
+        if (coll.gameObject.tag != "Player")
         {
-            coll.gameObject.GetComponent<EnemyIA>().health = coll.gameObject.GetComponent<EnemyIA>().health - 1;
-        }
+            if (coll.gameObject.tag == "Enemy")
+            {
+                coll.gameObject.GetComponent<EnemyIA>().health = coll.gameObject.GetComponent<EnemyIA>().health - 1;
+            }
 
-        Destroy(gameObject);
+            Destroy(gameObject);
+        }  
     }
 
 }
