@@ -5,8 +5,10 @@ using UnityEngine;
 public class BulletControl : MonoBehaviour {
 
     public float bulletVelocity;
-    public float bulletRange;
     public float bulletRate;
+    public float maxTravelDistance;
+
+    Transform startPosition;
     Rigidbody2D bulletRB;
 
     private void Start()
@@ -14,6 +16,14 @@ public class BulletControl : MonoBehaviour {
         bulletRB = GetComponent<Rigidbody2D>();
     }
 
+    private void Update()
+    {
+        if(Vector2.Distance(startPosition.position, transform.position) > maxTravelDistance)
+        {
+            bulletRB.AddForce(Vector2.down);
+            GameObject.FindGameObjectWithTag("TargetBullet").GetComponent<TargetControl>().follow = false;
+        }
+    }
 
     void OnCollisionEnter2D(Collision2D coll)
     {
@@ -25,7 +35,12 @@ public class BulletControl : MonoBehaviour {
             }
 
             Destroy(gameObject);
-        }  
+        }
+    }
+
+    public Transform InitialPosition
+    {
+        set { startPosition = value; }
     }
 
 }

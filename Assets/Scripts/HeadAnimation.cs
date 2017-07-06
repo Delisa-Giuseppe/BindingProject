@@ -6,9 +6,11 @@ public class HeadAnimation : MonoBehaviour {
 
     Animator anim;
     Transform firePosition;
+    Transform fireShadow;
     Rigidbody2D playerRB;
     float nextFire = 0.0F;
     public GameObject bullet;
+    public GameObject target;
     float previousH = 0;
     float previousV = 0;
 
@@ -16,6 +18,7 @@ public class HeadAnimation : MonoBehaviour {
     void Start () {
         anim = GetComponent<Animator>();
         firePosition = transform.FindChild("FireBullet").transform;
+        fireShadow = transform.FindChild("FireShadow").transform;
     }
 
     // Update is called once per frame
@@ -28,37 +31,36 @@ public class HeadAnimation : MonoBehaviour {
 
         bool shooting = h != 0f || v != 0f;
         bool moving = h1 != 0f || v1 != 0f;
+        bool isShootingUp = false;
 
         anim.SetBool("isShooting", shooting);
         anim.SetBool("isMoving", moving);
 
         float bulletVelocity = bullet.GetComponent<BulletControl>().bulletVelocity;
-        float bulletRange = bullet.GetComponent<BulletControl>().bulletRange;
         float bulletRate = bullet.GetComponent<BulletControl>().bulletRate;
 
         float speedPlayerX = playerRB.velocity.x != 0 ? playerRB.velocity.x : 0;
         float speedPlayerY = playerRB.velocity.y != 0 ? playerRB.velocity.y : 0;
-        
-        float xSpeed = bulletVelocity + speedPlayerX;
-        float ySpeed = bulletVelocity + speedPlayerY;
+
+        Vector2 speed = Vector2.zero;
 
         if (h > 0)
         {
-            ySpeed = bulletRange;
+            speed = Vector2.right * bulletVelocity;
         }
         if (h < 0)
         {
-            xSpeed = -xSpeed;
-            ySpeed = bulletRange;
+            speed = Vector2.left * bulletVelocity;
         }
         else if (v > 0)
         {
-            xSpeed = 0;
+            speed = Vector2.up * bulletVelocity;
+            isShootingUp = true;
+
         }
         else if (v < 0 || (h == 0 && v == 0))
         {
-            xSpeed = 0;
-            ySpeed = -bulletRange;
+            speed = Vector2.down * bulletVelocity;
         }
 
         if(moving)
@@ -83,7 +85,7 @@ public class HeadAnimation : MonoBehaviour {
             if(Time.time > nextFire)
             {
                 nextFire = Time.time + bulletRate;
-                Fire(xSpeed, ySpeed);
+                Fire(speed, isShootingUp);
             }
         }
         else
@@ -95,11 +97,18 @@ public class HeadAnimation : MonoBehaviour {
 
     }
 
-    void Fire(float xSpeed, float ySpeed)
+    void Fire(Vector2 speed, bool isShootingUp)
     {
         GameObject bulletInstance = Instantiate(bullet, firePosition.position, Quaternion.identity) as GameObject;
+        GameObject targetInstance = Instantiate(target, fireShadow.position, Quaternion.identity) as GameObject;
+        targetInstance.GetComponent<TargetControl>().BulletFollow = bulletInstance;
 
         Rigidbody2D bulletRB = bulletInstance.GetComponent<Rigidbody2D>();
-        bulletRB.velocity = new Vector2(xSpeed, ySpeed);
+        bulletRB.velocity = speed;
+        bulletInstance.GetComponent<BulletControl>().InitialPosition = firePosition;
+        if (isShootingUp)
+        {
+            bulletInstance.GetComponent<SpriteRenderer>().sortingOrder = 0;
+        }
     }
 }
