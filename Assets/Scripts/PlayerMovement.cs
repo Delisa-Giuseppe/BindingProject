@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour {
 
     public float speed = 5f;
-    public GameObject bullet;
     Rigidbody2D playerRB;
 
 	// Use this for initialization
