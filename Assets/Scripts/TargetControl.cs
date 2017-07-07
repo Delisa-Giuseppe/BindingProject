@@ -19,7 +19,7 @@ public class TargetControl : MonoBehaviour {
             if(follow)
             {
                 transform.position = Vector2.MoveTowards(transform.position, transform.position + followBullet.transform.position, 0f);
-                GetComponent<Rigidbody2D>().velocity = followBullet.GetComponent<Rigidbody2D>().velocity;
+                
             }
         }
         else

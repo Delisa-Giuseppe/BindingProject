@@ -95,12 +95,13 @@ public class HeadAnimation : MonoBehaviour {
     void Fire(Vector2 speed, bool isShootingUp)
     {
         GameObject bulletInstance = Instantiate(bullet, firePosition.position, Quaternion.identity) as GameObject;
-        GameObject targetInstance = Instantiate(target, fireShadow.position, Quaternion.identity) as GameObject;
+        GameObject targetInstance = Instantiate(target, fireShadow.position, target.transform.rotation) as GameObject;
         targetInstance.GetComponent<TargetControl>().BulletFollow = bulletInstance;
 
         Rigidbody2D bulletRB = bulletInstance.GetComponent<Rigidbody2D>();
         bulletRB.velocity = speed;
         bulletInstance.GetComponent<BulletControl>().InitialPosition = firePosition;
+        targetInstance.GetComponent<Rigidbody2D>().velocity = speed;
         if (isShootingUp)
         {
             bulletInstance.GetComponent<SpriteRenderer>().sortingOrder = 0;
