@@ -7,7 +7,6 @@ public class HeadAnimation : MonoBehaviour {
     Animator anim;
     Transform firePosition;
     Transform fireShadow;
-    Rigidbody2D playerRB;
     float nextFire = 0.0F;
     public GameObject bullet;
     public GameObject target;
@@ -23,7 +22,6 @@ public class HeadAnimation : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        playerRB = GetComponentInParent<Rigidbody2D>();
         float h = Input.GetAxisRaw("Horizontal2");
         float v = Input.GetAxisRaw("Vertical2");
         float h1 = Input.GetAxisRaw("Horizontal");
@@ -38,9 +36,6 @@ public class HeadAnimation : MonoBehaviour {
 
         float bulletVelocity = bullet.GetComponent<BulletControl>().bulletVelocity;
         float bulletRate = bullet.GetComponent<BulletControl>().bulletRate;
-
-        float speedPlayerX = playerRB.velocity.x != 0 ? playerRB.velocity.x : 0;
-        float speedPlayerY = playerRB.velocity.y != 0 ? playerRB.velocity.y : 0;
 
         Vector2 speed = Vector2.zero;
 
