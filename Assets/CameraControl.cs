@@ -17,7 +17,7 @@ public class CameraControl : MonoBehaviour {
 		if(moveCamera && transform.position != destination.position)
         {
             Vector3 newPosition = new Vector3(destination.position.x, destination.position.y, transform.position.z);
-            transform.position = Vector3.Lerp(transform.position, newPosition, 0.2f);
+            transform.position = Vector3.Lerp(transform.position, newPosition, 0.1f);
         }
         else
         {
