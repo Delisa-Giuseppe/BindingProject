@@ -11,7 +11,7 @@ public class BulletEnemy : EnemyIA {
     // Update is called once per frame
     void Update()
     {
-        if (base.IsDead())
+        if (IsDead())
         {
             Destroy(gameObject);
         }
@@ -22,13 +22,18 @@ public class BulletEnemy : EnemyIA {
             nextFire = Time.time + bulletRate;
             Shoot();
         }
+        else
+        {
+            anim.SetBool("IsShooting", false);
+        }
     }
 
     private void Shoot()
     {
+        anim.SetBool("IsShooting", true);
         for(int i = 0; i < 4; i++)
         {
-            GameObject bulletInstance = Instantiate(enemyBullet, transform.GetChild(1).transform.position, Quaternion.identity) as GameObject;
+            GameObject bulletInstance = Instantiate(enemyBullet, transform.GetChild(0).transform.position, Quaternion.identity) as GameObject;
             Rigidbody2D bulletRB = bulletInstance.GetComponent<Rigidbody2D>();
             float bulletSpeed = bulletInstance.GetComponent<EnemyBulletControl>().speed;
             switch (i)

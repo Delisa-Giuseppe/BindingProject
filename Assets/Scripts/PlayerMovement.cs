@@ -18,4 +18,25 @@ public class PlayerMovement : MonoBehaviour {
         playerRB.velocity = new Vector2(Input.GetAxis("Horizontal") * speed * Time.deltaTime, Input.GetAxis("Vertical") * speed * Time.deltaTime);
 
 	}
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //if(collision.gameObject.tag == "Enemy")
+        //{
+        //    SpriteRenderer[] childsRenderer = GetComponentsInChildren<SpriteRenderer>();
+        //    foreach(SpriteRenderer childRender in childsRenderer)
+        //    {
+        //        childRender.color = Color.red;
+        //    }
+        //}
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    { 
+        SpriteRenderer[] childsRenderer = GetComponentsInChildren<SpriteRenderer>();
+        foreach (SpriteRenderer childRender in childsRenderer)
+        {
+            childRender.color = Color.white;
+        }
+    }
 }

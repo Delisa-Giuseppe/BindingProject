@@ -13,6 +13,16 @@ public class EnemyBulletControl : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        Destroy(gameObject);
+        if (coll.gameObject.tag != "Enemy")
+        {
+            if (coll.gameObject.tag == "Player")
+            {
+                HUDManager manager = GameObject.Find("HUD").GetComponent<HUDManager>();
+                manager.ModifyHealth(5);
+            }
+
+            Destroy(gameObject);
+        }
+                
     }
 }

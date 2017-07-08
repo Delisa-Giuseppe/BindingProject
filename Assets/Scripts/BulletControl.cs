@@ -31,11 +31,6 @@ public class BulletControl : MonoBehaviour {
         if (coll.gameObject.tag == "Enemy")
         {
 			coll.gameObject.GetComponent<EnemyIA> ().health--;
-			if(coll.gameObject.GetComponent<EnemyIA> ().health <= 0)
-			{
-				Destroy (coll.gameObject);
-			}
-
         }
 
         Destroy(gameObject);

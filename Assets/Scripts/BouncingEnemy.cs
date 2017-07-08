@@ -8,28 +8,39 @@ public class BouncingEnemy : EnemyIA {
 	public GameObject enemyBullet;
 
 	private Rigidbody2D rb;
-	private Collider2D coll;
 
 	// Use this for initialization
 	void Start () 
 	{
 		rb = GetComponent <Rigidbody2D> ();
-		coll = GetComponent <BoxCollider2D> ();
 		rb.AddForce (new Vector2 (100f, -100f));
-
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		
+		if(base.IsDead())
+        {
+            rb.velocity = Vector2.zero;
+            anim.SetTrigger("IsDead");
+            Destroy(gameObject, 1f);
+        }
 	}
 
-	void OnDestroy()
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            OnHitPlayer();
+        }
+    }
+
+    void OnDestroy()
 	{
+        
 		Sprite sprite = GetComponent <SpriteRenderer> ().sprite;
 
-		if (sprite.name == "Spitfly")
+		if (sprite.name.Contains("Spitfly"))
 		{
 
 			for(int i = 0; i < 8; i++)
