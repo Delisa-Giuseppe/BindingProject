@@ -13,7 +13,6 @@ public class Boss : MonoBehaviour {
 
 
 	void Start () {
-        
 	}
 	
 	// Update is called once per frame
@@ -37,7 +36,7 @@ public class Boss : MonoBehaviour {
         GameObject bulletInstance = Instantiate(projectile, shootPoint.position, shootPoint.rotation);
         GameObject bulletInstance1 = Instantiate(projectile, shootPoint.position, shootPoint.rotation);
         bulletInstance.GetComponent<Rigidbody2D>().velocity = Vector3.up + (target.position - transform.position) * 1.5f;
-        bulletInstance1.GetComponent<Rigidbody2D>().velocity = Vector3.left + (target.position - transform.position) * 1.5f;
+		bulletInstance1.GetComponent<Rigidbody2D>().velocity = Vector3.right + (target.position - transform.position) * 1.5f;
 
     }
 
@@ -45,7 +44,7 @@ public class Boss : MonoBehaviour {
     {
         if(collision.gameObject.tag == "Bullet")
         {
-            health -= health - 20f;
+            health -= 10f;
         }
     }
 }
