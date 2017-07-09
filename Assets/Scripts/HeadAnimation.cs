@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeadAnimation : MonoBehaviour {
+public class HeadAnimation : PlayerMovement {
 
     Animator anim;
     Transform firePosition;
@@ -22,74 +22,75 @@ public class HeadAnimation : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        float h = Input.GetAxisRaw("Horizontal2");
-        float v = Input.GetAxisRaw("Vertical2");
-        float h1 = Input.GetAxisRaw("Horizontal");
-        float v1 = Input.GetAxisRaw("Vertical");
-
-        bool shooting = h != 0f || v != 0f;
-        bool moving = h1 != 0f || v1 != 0f;
-        bool isShootingUp = false;
-
-        anim.SetBool("isShooting", shooting);
-        anim.SetBool("isMoving", moving);
-
-        float bulletVelocity = bullet.GetComponent<BulletControl>().bulletVelocity;
-        float bulletRate = bullet.GetComponent<BulletControl>().bulletRate;
-
-        Vector2 speed = Vector2.zero;
-
-        if (h > 0)
+        if (movementEnabled)
         {
-            speed = Vector2.right * bulletVelocity;
-        }
-        if (h < 0)
-        {
-            speed = Vector2.left * bulletVelocity;
-        }
-        else if (v > 0)
-        {
-            speed = Vector2.up * bulletVelocity;
-            isShootingUp = true;
+            float h = Input.GetAxisRaw("Horizontal2");
+            float v = Input.GetAxisRaw("Vertical2");
+            float h1 = Input.GetAxisRaw("Horizontal");
+            float v1 = Input.GetAxisRaw("Vertical");
 
-        }
-        else if (v < 0 || (h == 0 && v == 0))
-        {
-            speed = Vector2.down * bulletVelocity;
-        }
+            bool shooting = h != 0f || v != 0f;
+            bool moving = h1 != 0f || v1 != 0f;
+            bool isShootingUp = false;
 
-        if(moving)
-        {
-            previousH = h1;
-            previousV = v1;
-            anim.SetFloat("movementHorizontal", h1);
-            anim.SetFloat("movementVertical", v1);
-        }
-        else
-        {
-            anim.SetFloat("movementHorizontal", previousH);
-            anim.SetFloat("movementVertical", previousV);
-        }
+            anim.SetBool("isShooting", shooting);
+            anim.SetBool("isMoving", moving);
 
-        if (shooting)
-        {
-            previousH = h;
-            previousV = v;
-            anim.SetFloat("speedHorizontal", h);
-            anim.SetFloat("speedVertical", v);
-            if(Time.time > nextFire)
+            float bulletVelocity = bullet.GetComponent<BulletControl>().bulletVelocity;
+            float bulletRate = bullet.GetComponent<BulletControl>().bulletRate;
+
+            Vector2 speed = Vector2.zero;
+
+            if (h > 0)
             {
-                nextFire = Time.time + bulletRate;
-                Fire(speed, isShootingUp);
+                speed = Vector2.right * bulletVelocity;
+            }
+            if (h < 0)
+            {
+                speed = Vector2.left * bulletVelocity;
+            }
+            else if (v > 0)
+            {
+                speed = Vector2.up * bulletVelocity;
+                isShootingUp = true;
+
+            }
+            else if (v < 0 || (h == 0 && v == 0))
+            {
+                speed = Vector2.down * bulletVelocity;
+            }
+
+            if (moving)
+            {
+                previousH = h1;
+                previousV = v1;
+                anim.SetFloat("movementHorizontal", h1);
+                anim.SetFloat("movementVertical", v1);
+            }
+            else
+            {
+                anim.SetFloat("movementHorizontal", previousH);
+                anim.SetFloat("movementVertical", previousV);
+            }
+
+            if (shooting)
+            {
+                previousH = h;
+                previousV = v;
+                anim.SetFloat("speedHorizontal", h);
+                anim.SetFloat("speedVertical", v);
+                if (Time.time > nextFire)
+                {
+                    nextFire = Time.time + bulletRate;
+                    Fire(speed, isShootingUp);
+                }
+            }
+            else
+            {
+                anim.SetFloat("movementHorizontal", previousH);
+                anim.SetFloat("movementVertical", previousV);
             }
         }
-        else
-        {
-            anim.SetFloat("movementHorizontal", previousH);
-            anim.SetFloat("movementVertical", previousV);
-        }
-
-
     }
 
     void Fire(Vector2 speed, bool isShootingUp)

@@ -13,14 +13,17 @@ public class BodyAnimation : MonoBehaviour {
 	
 	// Update is called once per frame
 	void LateUpdate () {
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-        bool walking = h != 0f || v != 0f;
-        anim.SetBool("isWalking", walking);
-        if (walking)
+        if(PlayerMovement.movementEnabled)
         {
-            anim.SetFloat("speedHorizontal", h);
-            anim.SetFloat("speedVertical", v);
+            float h = Input.GetAxisRaw("Horizontal");
+            float v = Input.GetAxisRaw("Vertical");
+            bool walking = h != 0f || v != 0f;
+            anim.SetBool("isWalking", walking);
+            if (walking)
+            {
+                anim.SetFloat("speedHorizontal", h);
+                anim.SetFloat("speedVertical", v);
+            }
         }
     }
 }

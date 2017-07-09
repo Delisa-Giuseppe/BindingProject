@@ -75,11 +75,15 @@ public class HUDManager : MonoBehaviour {
 
         if (currentHealth <= 0)
         {
-            Destroy(player);
+            PlayerMovement.movementEnabled = false;
+            player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            player.GetComponents<AudioSource>()[1].Play();
+            player.GetComponent<BoxCollider2D>().enabled = false;
+            player.transform.Find("Head").GetComponentInChildren<Animator>().SetTrigger("IsDead");            
             Text gameOver = transform.GetChild(0).GetComponent<Text>();
             gameOver.enabled = true;
-
             StartCoroutine(LoadLevelAfterDelay(2.5f));
+            
         }
     }
 
