@@ -39,10 +39,7 @@ public class BouncingEnemy : EnemyIA {
 	{
         
 		Sprite sprite = GetComponent <SpriteRenderer> ().sprite;
-
-		if (sprite.name.Contains("Spitfly"))
-		{
-
+	
 			for(int i = 0; i < 8; i++)
 			{
 				GameObject bulletInstance = Instantiate(enemyBullet, gameObject.transform.position, Quaternion.identity);
@@ -75,7 +72,7 @@ public class BouncingEnemy : EnemyIA {
 					bulletRB.velocity = new Vector2(-bulletSpeed, -bulletSpeed);
 						break;
 				}
-			}
+
 		}
 
 	}
