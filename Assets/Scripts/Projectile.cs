@@ -19,11 +19,17 @@ public class Projectile : MonoBehaviour {
     // Update is called once per frame
     private void OnCollisionEnter2D(Collision2D collision)
     {
-		if(collision.gameObject.tag == "Player" || collision.gameObject.tag == "Walls")
+		if(collision.gameObject.tag == "Player")
+        {
+            HUDManager manager = GameObject.Find("HUD").GetComponent<HUDManager>();
+            manager.ModifyHealth(5);
+            Destroy(this.gameObject);
+        }
+
+        if(collision.gameObject.tag == "Walls")
         {
             Destroy(this.gameObject);
         }
-        
     }
 
     private void Update()

@@ -11,10 +11,10 @@ public class EnemyIA : MonoBehaviour {
     HUDManager manager;
 
 
-    private void Start()
+    protected void SetAnim()
     {
         anim = GetComponent<Animator>();
-        manager = GameObject.Find("HUD").GetComponent<HUDManager>();
+        
     }
 
     protected bool IsDead()
@@ -31,6 +31,7 @@ public class EnemyIA : MonoBehaviour {
 
     protected void OnHitPlayer()
     {
+        manager = GameObject.Find("HUD").GetComponent<HUDManager>();
         manager.ModifyHealth(damage);
     }
 }

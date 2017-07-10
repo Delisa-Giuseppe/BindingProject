@@ -14,12 +14,13 @@ public class BouncingEnemy : EnemyIA {
 	{
 		rb = GetComponent <Rigidbody2D> ();
 		rb.AddForce (new Vector2 (100f, -100f));
+        SetAnim();
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		if(base.IsDead())
+		if(IsDead())
         {
             rb.velocity = Vector2.zero;
             anim.SetTrigger("IsDead");

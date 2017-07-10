@@ -8,6 +8,11 @@ public class BulletEnemy : EnemyIA {
     public float bulletRate;
     float nextFire = 0;
 
+    private void Start()
+    {
+        SetAnim();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -53,4 +58,5 @@ public class BulletEnemy : EnemyIA {
             }
         }
     }
+
 }

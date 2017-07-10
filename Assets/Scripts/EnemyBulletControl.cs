@@ -25,4 +25,9 @@ public class EnemyBulletControl : MonoBehaviour {
         }
                 
     }
+
+    private void OnApplicationQuit()
+    {
+        Destroy(gameObject);
+    }
 }

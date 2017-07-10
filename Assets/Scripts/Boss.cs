@@ -23,9 +23,9 @@ public class Boss : MonoBehaviour {
             Fire();
         }
             
-        if(health <= 50)
+        if(health <= 0)
         {
-
+            Destroy(gameObject);
         }
         
 	}
@@ -35,8 +35,10 @@ public class Boss : MonoBehaviour {
         //transform.LookAt(target);
         GameObject bulletInstance = Instantiate(projectile, shootPoint.position, shootPoint.rotation);
         GameObject bulletInstance1 = Instantiate(projectile, shootPoint.position, shootPoint.rotation);
+        GameObject bulletInstance2 = Instantiate(projectile, shootPoint.position, shootPoint.rotation);
         bulletInstance.GetComponent<Rigidbody2D>().velocity = Vector3.up + (target.position - transform.position) * 1.5f;
 		bulletInstance1.GetComponent<Rigidbody2D>().velocity = Vector3.right + (target.position - transform.position) * 1.5f;
+        bulletInstance2.GetComponent<Rigidbody2D>().velocity = Vector3.down + (target.position - transform.position) * 1.5f;
 
     }
 
